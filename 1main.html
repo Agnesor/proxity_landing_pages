@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Proxity - Маркетплейс закрытых сделок</title>
+    <!-- Importing Manrope font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        /* --- Global Variables --- */
+        :root {
+            --bg-dark: #050a14;
+            --text-primary: #ffffff;
+            --text-secondary: #94a3b8;
+            --primary-blue: #3b82ff;
+            --primary-gradient: linear-gradient(135deg, #3b82ff 0%, #155bff 100%);
+            --accent-cyan: #00d4ff;
+            --glass-bg: rgba(255, 255, 255, 0.03);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --glass-highlight: rgba(255, 255, 255, 0.15);
+            --card-radius: 24px;
+            --transition-fast: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --shadow-glow: 0 0 40px rgba(59, 130, 255, 0.15);
+        }
+
+        /* --- Reset & Base --- */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            outline: none;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-primary);
+            font-family: 'Manrope', sans-serif;
+            line-height: 1.6;
+            font-size: 16px;
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Animated Background */
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            background: 
+                radial-gradient(circle at 15% 50%, rgba(59, 130, 255, 0.15), transparent 40%),
+                radial-gradient(circle at 85% 30%, rgba(0, 212, 255, 0.1), transparent 40%),
+                radial-gradient(circle at 50% 80%, rgba(120, 59, 255, 0.1), transparent 40%);
+            z-index: -2;
+            animation: bgPulse 10s ease-in-out infinite alternate;
+        }
+
+        @keyframes bgPulse {
+            0% { opacity: 0.7; transform: scale(1); }
+            100% { opacity: 1; transform: scale(1.1); }
+        }
+
+        body::after {
+            content: "";
+            position: fixed;
+            inset: 0;
+            background: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.05'/%3E%3C/svg%3E");
+            pointer-events: none;
+            z-index: -1;
+            opacity: 0.4;
+        }
+
+        a { text-decoration: none; color: inherit; transition: var(--transition-fast); }
+        ul { list-style: none; }
+        img { max-width: 100%; display: block; }
+
+        /* --- Layout --- */
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        section {
+            padding: 100px 0;
+            position: relative;
+        }
+
+        /* --- Typography --- */
+        h1, h2, h3, h4 {
+            color: var(--text-primary);
+            line-height: 1.2;
+            margin-bottom: 1rem;
+        }
+
+        h1 {
+            font-size: clamp(2.5rem, 5vw, 4.5rem);
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            background: linear-gradient(to right, #fff, #a5b4fc);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        h2 {
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 700;
+            letter-spacing: -0.01em;
+            margin-bottom: 60px;
+            text-align: center;
+        }
+
+        h3 {
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        p {
+            color: var(--text-secondary);
+            font-size: 1.125rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .text-gradient {
+            background: var(--primary-gradient);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .text-center { text-align: center; }
+
+        /* --- Components: Buttons --- */
+        .button {
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            padding: 14px 32px;
+            border-radius: 99px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: var(--transition-fast);
+            position: relative;
+            overflow: hidden;
+            border: 1px solid transparent;
+        }
+
+        .button.primary {
+            background: var(--primary-gradient);
+            color: white;
+            box-shadow: 0 10px 25px rgba(59, 130, 255, 0.3);
+        }
+
+        .button.primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 35px rgba(59, 130, 255, 0.5);
+        }
+
+        .button.outline {
+            background: transparent;
+            border-color: rgba(255, 255, 255, 0.2);
+            color: white;
+        }
+
+        .button.outline:hover {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: white;
+        }
+
+        .button.white {
+            background: white;
+            color: var(--bg-dark);
+        }
+        .button.white:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(255, 255, 255, 0.2);
+        }
+
+        /* --- Header --- */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            padding: 20px 0;
+            transition: var(--transition-fast);
+        }
+
+        .header.scrolled {
+            padding: 15px 0;
+            background: rgba(5, 10, 20, 0.8);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 800;
+            color: white;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .logo span { color: var(--primary-blue); }
+
+        .nav-actions {
+            display: flex;
+            gap: 16px;
+        }
+
+        /* --- Hero Section --- */
+        .section-hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding-top: 100px;
+            padding-bottom: 100px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            padding: 8px 16px;
+            border-radius: 50px;
+            background: rgba(59, 130, 255, 0.1);
+            border: 1px solid rgba(59, 130, 255, 0.3);
+            color: var(--primary-blue);
+            font-size: 0.875rem;
+            font-weight: 600;
+            margin-bottom: 24px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            backdrop-filter: blur(5px);
+        }
+
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-desc {
+            font-size: 1.25rem;
+            max-width: 600px;
+            margin: 0 auto 40px;
+            line-height: 1.6;
+        }
+
+        .hero-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        /* --- Cards & Grid --- */
+        .grid-auto {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .card {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--card-radius);
+            padding: 40px;
+            transition: var(--transition-fast);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card:hover {
+            transform: translateY(-8px);
+            border-color: var(--glass-highlight);
+            background: rgba(255, 255, 255, 0.05);
+            box-shadow: var(--shadow-glow);
+        }
+
+        /* --- Section: How It Works --- */
+        .how-card {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .how-card.highlight {
+            background: linear-gradient(145deg, rgba(59, 130, 255, 0.1), rgba(5, 10, 20, 0.4));
+            border-color: rgba(59, 130, 255, 0.3);
+        }
+
+        .step-list {
+            margin-top: 20px;
+            counter-reset: step-counter;
+        }
+
+        .step-list li {
+            position: relative;
+            padding-left: 50px;
+            margin-bottom: 24px;
+            color: var(--text-secondary);
+        }
+
+        .step-list li::before {
+            counter-increment: step-counter;
+            content: counter(step-counter);
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 32px;
+            height: 32px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            color: var(--primary-blue);
+            font-size: 14px;
+        }
+
+        /* --- Section: Audience --- */
+        .audience-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .audience-item {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            padding: 24px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            transition: var(--transition-fast);
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+
+        .audience-item:hover {
+            background: rgba(255, 255, 255, 0.08);
+            transform: translateY(-4px);
+        }
+
+        .audience-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--primary-blue);
+            box-shadow: 0 0 10px var(--primary-blue);
+        }
+
+        /* --- Section: Unique --- */
+        .feature-card {
+            text-align: center;
+            padding: 30px;
+        }
+        
+        .feature-icon {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: var(--primary-blue);
+        }
+
+        .feature-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 12px;
+            color: white;
+        }
+
+        /* --- Section: CTA --- */
+        .section-cta {
+            text-align: center;
+            background: linear-gradient(180deg, transparent, rgba(59, 130, 255, 0.1));
+            border-top: 1px solid var(--glass-border);
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        /* --- Footer --- */
+        footer {
+            padding: 40px 0;
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+            border-top: 1px solid var(--glass-border);
+        }
+
+        /* --- Animations --- */
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        .fade-in-up.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Stagger delays */
+        .delay-100 { transition-delay: 0.1s; }
+        .delay-200 { transition-delay: 0.2s; }
+        .delay-300 { transition-delay: 0.3s; }
+
+        /* --- Mobile Responsiveness --- */
+        @media (max-width: 768px) {
+            .hero-buttons { flex-direction: column; width: 100%; }
+            .button { width: 100%; }
+            section { padding: 60px 0; }
+            .header { padding: 15px 0; }
+            h1 { font-size: 2.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="container header-content">
+            <div class="logo">
+                Proxity<span>.</span>
+            </div>
+            <div class="nav-actions">
+                <a href="#" class="button outline">Войти</a>
+                <a href="#" class="button primary">Регистрация</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="section-hero">
+        <div class="container">
+            <div class="hero-content fade-in-up">
+                <span class="hero-badge">Проверенные сделки</span>
+                <h1>Закрытый маркетплейс<br>для сделок с крупными активами</h1>
+                <p class="hero-desc">
+                    Безопасное пространство, где верифицированные собственники встречают проверенных инвесторов. 
+                    Полный контроль раскрытия информации и конфиденциальность.
+                </p>
+                <div class="hero-buttons">
+                    <a href="#" class="button primary">Разместить объект</a>
+                    <a href="#" class="button outline">Найти объект</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works -->
+    <section id="how-it-works">
+        <div class="container">
+            <h2 class="fade-in-up">Простая логика взаимодействия</h2>
+            <div class="grid-auto">
+                <!-- Seller Card -->
+                <div class="card how-card fade-in-up delay-100">
+                    <h3>Для продавцов</h3>
+                    <ul class="step-list">
+                        <li>Разместите объект в защищённом формате (тизер).</li>
+                        <li>Согласуйте запросы на раскрытие деталей.</li>
+                        <li>Общайтесь с интересантами и обсуждайте условия.</li>
+                    </ul>
+                </div>
+                
+                <!-- Buyer Card -->
+                <div class="card how-card highlight fade-in-up delay-200">
+                    <h3>Для покупателей</h3>
+                    <ul class="step-list">
+                        <li>Настройте мониторинг под ваши требования.</li>
+                        <li>Отправьте запрос на детали объекта.</li>
+                        <li>Получите всю информацию для принятия решения.</li>
+                        <li>Обсуждайте условия напрямую с продавцом.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Audience Section -->
+    <section>
+        <div class="container">
+            <h2 class="fade-in-up">Кому подходит наш маркетплейс</h2>
+            <div class="audience-grid">
+                <div class="audience-item fade-in-up delay-100">
+                    <div class="audience-dot"></div> Владельцы холдингов
+                </div>
+                <div class="audience-item fade-in-up delay-100">
+                    <div class="audience-dot"></div> Банки (работа с задолженностью)
+                </div>
+                <div class="audience-item fade-in-up delay-200">
+                    <div class="audience-dot"></div> Family-офисы
+                </div>
+                <div class="audience-item fade-in-up delay-200">
+                    <div class="audience-dot"></div> Частные инвесторы
+                </div>
+                <div class="audience-item fade-in-up delay-300">
+                    <div class="audience-dot"></div> Девелоперы
+                </div>
+                <div class="audience-item fade-in-up delay-300">
+                    <div class="audience-dot"></div> Арбитражные управляющие
+                </div>
+            </div>
+            <div class="text-center fade-in-up delay-300" style="margin-top: 40px;">
+                <p style="opacity: 0.6; font-size: 0.9rem;">📍 Платформа для РФ, но объекты могут быть по всему миру</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Security & Unique Features -->
+    <section>
+        <div class="container">
+            <h2 class="fade-in-up">Уникальные преимущества</h2>
+            <div class="grid-auto">
+                <div class="card feature-card fade-in-up delay-100">
+                    <div class="feature-title">Конфиденциальность</div>
+                    <p>Объекты видны только в виде обезличенных тизеров до вашего подтверждения доступа.</p>
+                </div>
+                <div class="card feature-card fade-in-up delay-200">
+                    <div class="feature-title">Верификация</div>
+                    <p>Строгая проверка всех участников: продавцов, брокеров и инвесторов.</p>
+                </div>
+                <div class="card feature-card fade-in-up delay-300">
+                    <div class="feature-title">Аналитика рисков</div>
+                    <p>По каждому объекту предоставляется предварительная оценка инвестиционных рисков.</p>
+                </div>
+                <div class="card feature-card fade-in-up delay-100">
+                    <div class="feature-title">Продвижение</div>
+                    <p>Умные уведомления и закрытые рассылки для целевых инвесторов.</p>
+                </div>
+                <div class="card feature-card fade-in-up delay-200">
+                    <div class="feature-title">Безопасность</div>
+                    <p>Защищенный внутренний чат и подписание NDA внутри платформы.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="section-cta">
+        <div class="container">
+            <div class="fade-in-up">
+                <h2>Начните работать с активами сегодня</h2>
+                <p>Разместите свой объект или настройте мониторинг — получите первые предложения.</p>
+                <div class="hero-buttons" style="margin-top: 30px;">
+                    <a href="#" class="button white">Разместить объект</a>
+                    <a href="#" class="button outline">Найти объект</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Proxity. Все права защищены.</p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script>
+        // Scroll Animation Observer
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    observer.unobserve(entry.target); // Only animate once
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.fade-in-up').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Sticky Header Effect
+        window.addEventListener('scroll', () => {
+            const header = document.querySelector('.header');
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+    </script>
+</body>
+</html>
