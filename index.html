@@ -3,565 +3,272 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Proxity - Маркетплейс закрытых сделок</title>
-    <!-- Importing Manrope font -->
+    <meta name="description" content="PROXITY — первый в России маркетплейс закрытых продаж активов высокой стоимости. Конфиденциальная продажа и покупка бизнеса, коммерческой недвижимости и производственных объектов.">
+    <title>PROXITY — Маркетплейс закрытых сделок</title>
+    
+    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     
-    <style>
-        /* --- Global Variables --- */
-        :root {
-            --bg-dark: #050a14;
-            --text-primary: #ffffff;
-            --text-secondary: #94a3b8;
-            --primary-blue: #3b82ff;
-            --primary-gradient: linear-gradient(135deg, #3b82ff 0%, #155bff 100%);
-            --accent-cyan: #00d4ff;
-            --glass-bg: rgba(255, 255, 255, 0.03);
-            --glass-border: rgba(255, 255, 255, 0.08);
-            --glass-highlight: rgba(255, 255, 255, 0.15);
-            --card-radius: 24px;
-            --transition-fast: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            --shadow-glow: 0 0 40px rgba(59, 130, 255, 0.15);
-        }
-
-        /* --- Reset & Base --- */
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            outline: none;
-        }
-
-        body {
-            background-color: var(--bg-dark);
-            color: var(--text-primary);
-            font-family: 'Manrope', sans-serif;
-            line-height: 1.6;
-            font-size: 16px;
-            min-height: 100vh;
-            overflow-x: hidden;
-            position: relative;
-        }
-
-        /* Animated Background */
-        body::before {
-            content: "";
-            position: fixed;
-            inset: 0;
-            background: linear-gradient(-45deg, #020610, #0f1e3c, #162d5a, #0a1529, #020610);
-            background-size: 400% 400%;
-            z-index: -2;
-            animation: gradientBG 15s ease infinite;
-        }
-
-        @keyframes gradientBG {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-
-        body::after {
-            content: "";
-            position: fixed;
-            inset: 0;
-            background: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.05'/%3E%3C/svg%3E");
-            pointer-events: none;
-            z-index: -1;
-            opacity: 0.4;
-        }
-
-        a { text-decoration: none; color: inherit; transition: var(--transition-fast); }
-        ul { list-style: none; }
-        img { max-width: 100%; display: block; }
-
-        /* --- Layout --- */
-        .container {
-            width: 100%;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 24px;
-        }
-
-        section {
-            padding: 100px 0;
-            position: relative;
-        }
-
-        /* --- Typography --- */
-        h1, h2, h3, h4 {
-            color: var(--text-primary);
-            line-height: 1.2;
-            margin-bottom: 1rem;
-        }
-
-        h1 {
-            font-size: clamp(2.5rem, 5vw, 4.5rem);
-            font-weight: 800;
-            letter-spacing: -0.02em;
-            background: linear-gradient(to right, #fff, #a5b4fc);
-            background-clip: text;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        h2 {
-            font-size: clamp(2rem, 4vw, 3rem);
-            font-weight: 700;
-            letter-spacing: -0.01em;
-            margin-bottom: 60px;
-            text-align: center;
-        }
-
-        h3 {
-            font-size: 1.5rem;
-            font-weight: 600;
-        }
-
-        p {
-            color: var(--text-secondary);
-            font-size: 1.125rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .text-gradient {
-            background: var(--primary-gradient);
-            background-clip: text;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .text-center { text-align: center; }
-
-        /* --- Components: Buttons --- */
-        .button {
-            display: inline-flex;
-            justify-content: center;
-            align-items: center;
-            padding: 14px 32px;
-            border-radius: 99px;
-            font-weight: 600;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: var(--transition-fast);
-            position: relative;
-            overflow: hidden;
-            border: 1px solid transparent;
-        }
-
-        .button.primary {
-            background: var(--primary-gradient);
-            color: white;
-            box-shadow: 0 10px 25px rgba(59, 130, 255, 0.3);
-        }
-
-        .button.primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 15px 35px rgba(59, 130, 255, 0.5);
-        }
-
-        .button.outline {
-            background: transparent;
-            border-color: rgba(255, 255, 255, 0.2);
-            color: white;
-        }
-
-        .button.outline:hover {
-            background: rgba(255, 255, 255, 0.05);
-            border-color: white;
-        }
-
-        .button.white {
-            background: white;
-            color: var(--bg-dark);
-        }
-        .button.white:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 25px rgba(255, 255, 255, 0.2);
-        }
-
-        /* --- Header --- */
-        .header {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            z-index: 100;
-            padding: 20px 0;
-            transition: var(--transition-fast);
-        }
-
-        .header.scrolled {
-            padding: 15px 0;
-            background: rgba(5, 10, 20, 0.8);
-            backdrop-filter: blur(12px);
-            border-bottom: 1px solid var(--glass-border);
-        }
-
-        .header-content {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .logo {
-            font-size: 24px;
-            font-weight: 800;
-            color: white;
-            letter-spacing: 1px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        
-        .logo span { color: var(--primary-blue); }
-
-        .nav-actions {
-            display: flex;
-            gap: 16px;
-        }
-
-        /* --- Hero Section --- */
-        .section-hero {
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            padding-top: 100px;
-            padding-bottom: 100px;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .hero-badge {
-            display: inline-block;
-            padding: 8px 16px;
-            border-radius: 50px;
-            background: rgba(59, 130, 255, 0.1);
-            border: 1px solid rgba(59, 130, 255, 0.3);
-            color: var(--primary-blue);
-            font-size: 0.875rem;
-            font-weight: 600;
-            margin-bottom: 24px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            backdrop-filter: blur(5px);
-        }
-
-        .hero-content {
-            max-width: 800px;
-            margin: 0 auto;
-            text-align: center;
-            position: relative;
-            z-index: 2;
-        }
-
-        .hero-desc {
-            font-size: 1.25rem;
-            max-width: 600px;
-            margin: 0 auto 40px;
-            line-height: 1.6;
-        }
-
-        .hero-buttons {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            flex-wrap: wrap;
-        }
-
-        /* --- Cards & Grid --- */
-        .grid-auto {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-        }
-
-        .card {
-            background: var(--glass-bg);
-            border: 1px solid var(--glass-border);
-            border-radius: var(--card-radius);
-            padding: 40px;
-            transition: var(--transition-fast);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .card:hover {
-            transform: translateY(-8px);
-            border-color: var(--glass-highlight);
-            background: rgba(255, 255, 255, 0.05);
-            box-shadow: var(--shadow-glow);
-        }
-
-        /* --- Section: How It Works --- */
-        .how-card {
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .how-card.highlight {
-            background: linear-gradient(145deg, rgba(59, 130, 255, 0.1), rgba(5, 10, 20, 0.4));
-            border-color: rgba(59, 130, 255, 0.3);
-        }
-
-        .step-list {
-            margin-top: 20px;
-            counter-reset: step-counter;
-        }
-
-        .step-list li {
-            position: relative;
-            padding-left: 50px;
-            margin-bottom: 24px;
-            color: var(--text-secondary);
-        }
-
-        .step-list li::before {
-            counter-increment: step-counter;
-            content: counter(step-counter);
-            position: absolute;
-            left: 0;
-            top: 0;
-            width: 32px;
-            height: 32px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 700;
-            color: var(--primary-blue);
-            font-size: 14px;
-        }
-
-        /* --- Section: Audience --- */
-        .audience-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: 20px;
-        }
-
-        .audience-item {
-            background: var(--glass-bg);
-            border: 1px solid var(--glass-border);
-            padding: 24px;
-            border-radius: 16px;
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            transition: var(--transition-fast);
-            color: var(--text-primary);
-            font-weight: 500;
-        }
-
-        .audience-item:hover {
-            background: rgba(255, 255, 255, 0.08);
-            transform: translateY(-4px);
-        }
-
-        .audience-dot {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background: var(--primary-blue);
-            box-shadow: 0 0 10px var(--primary-blue);
-        }
-
-        /* --- Section: Unique --- */
-        .feature-card {
-            text-align: center;
-            padding: 30px;
-        }
-        
-        .feature-icon {
-            font-size: 24px;
-            margin-bottom: 20px;
-            color: var(--primary-blue);
-        }
-
-        .feature-title {
-            font-size: 1.25rem;
-            font-weight: 700;
-            margin-bottom: 12px;
-            color: white;
-        }
-
-        /* --- Section: CTA --- */
-        .section-cta {
-            text-align: center;
-            background: linear-gradient(180deg, transparent, rgba(59, 130, 255, 0.1));
-            border-top: 1px solid var(--glass-border);
-            border-bottom: 1px solid var(--glass-border);
-        }
-
-        /* --- Footer --- */
-        footer {
-            padding: 40px 0;
-            text-align: center;
-            color: var(--text-secondary);
-            font-size: 0.875rem;
-            border-top: 1px solid var(--glass-border);
-        }
-
-        /* --- Animations --- */
-        .fade-in-up {
-            opacity: 0;
-            transform: translateY(30px);
-            transition: opacity 0.8s ease, transform 0.8s ease;
-        }
-
-        .fade-in-up.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        /* Stagger delays */
-        .delay-100 { transition-delay: 0.1s; }
-        .delay-200 { transition-delay: 0.2s; }
-        .delay-300 { transition-delay: 0.3s; }
-
-        /* --- Mobile Responsiveness --- */
-        @media (max-width: 768px) {
-            .hero-buttons { flex-direction: column; width: 100%; }
-            .button { width: 100%; }
-            section { padding: 60px 0; }
-            .header { padding: 15px 0; }
-            h1 { font-size: 2.5rem; }
-        }
-    </style>
+    <!-- Styles -->
+    <link rel="stylesheet" href="assets/css/styles.css">
 </head>
 <body>
+    <!-- Animated gradient orbs background -->
+    <div class="gradient-orb gradient-orb-1"></div>
+    <div class="gradient-orb gradient-orb-2"></div>
+    <div class="gradient-orb gradient-orb-3"></div>
 
     <!-- Header -->
     <header class="header">
         <div class="container header-content">
-            <div class="logo">
-                Proxity<span>.</span>
-            </div>
+            <a href="index.html" class="logo">
+                <img src="assets/images/proxity_logo_white.svg" alt="Proxity" class="logo-img">
+            </a>
+            
+            <nav class="nav-main">
+                <a href="index.html" class="nav-link active">Главная</a>
+                <a href="investors.html" class="nav-link">Инвесторам</a>
+                <a href="sellers.html" class="nav-link">Продавцам</a>
+                <a href="brokers.html" class="nav-link">Брокерам</a>
+                <a href="contacts.html" class="nav-link">Контакты</a>
+            </nav>
+            
             <div class="nav-actions">
-                <a href="#" class="button outline">Войти</a>
                 <a href="#" class="button primary">Регистрация</a>
             </div>
+            
+            <button class="mobile-menu-toggle" aria-label="Toggle menu">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                </svg>
+            </button>
         </div>
     </header>
+    
+    <!-- Mobile Menu -->
+    <div class="mobile-menu">
+        <a href="index.html" class="nav-link active">Главная</a>
+        <a href="investors.html" class="nav-link">Инвесторам</a>
+        <a href="sellers.html" class="nav-link">Продавцам</a>
+        <a href="brokers.html" class="nav-link">Брокерам</a>
+        <a href="contacts.html" class="nav-link">Контакты</a>
+        <div class="nav-actions">
+            <a href="#" class="button primary">Регистрация</a>
+        </div>
+    </div>
 
     <!-- Hero Section -->
     <section class="section-hero">
         <div class="container">
             <div class="hero-content fade-in-up">
-                <span class="hero-badge">Проверенные сделки</span>
-                <h1>Закрытый маркетплейс<br>для сделок с крупными активами</h1>
+                <span class="hero-badge">Первый в России</span>
+                <h1 class="hero-title">Инвестиции любят тишину</h1>
                 <p class="hero-desc">
-                    Безопасное пространство, где верифицированные собственники встречают проверенных инвесторов. 
-                    Полный контроль раскрытия информации и конфиденциальность.
+                    Маркетплейс закрытых продаж активов высокой стоимости. Конфиденциальная продажа и покупка бизнеса, 
+                    коммерческой недвижимости и производственных объектов. Только проверенные участники.
                 </p>
                 <div class="hero-buttons">
-                    <a href="#" class="button primary">Разместить объект</a>
-                    <a href="#" class="button outline">Найти объект</a>
+                    <a href="#" class="button primary">Купить актив</a>
+                    <a href="#" class="button outline">Продать актив</a>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- How It Works -->
-    <section id="how-it-works">
+    <!-- Problem Section -->
+    <section>
         <div class="container">
-            <h2 class="fade-in-up">Простая логика взаимодействия</h2>
-            <div class="grid-auto">
-                <!-- Seller Card -->
-                <div class="card how-card fade-in-up delay-100">
-                    <h3>Для продавцов</h3>
-                    <ul class="step-list">
-                        <li>Разместите объект в защищённом формате (тизер).</li>
-                        <li>Согласуйте запросы на раскрытие деталей.</li>
-                        <li>Общайтесь с интересантами и обсуждайте условия.</li>
-                    </ul>
+            <div class="fade-in-up">
+                <h2 class="section-title">Публичность убивает сделку</h2>
+                <div class="problem-block">
+                    <p class="lead mx-auto text-center mb-4">
+                        Выход крупного актива в рынок — это риск. Спекуляции, падение цены, напряжение среди партнёров и сотрудников, 
+                        нежелательное внимание СМИ. Традиционный рынок заставляет раскрывать карты раньше времени.
+                    </p>
+                    <p class="text-center mb-0" style="color: var(--primary-blue); font-weight: 600; font-size: 1.15rem;">
+                        Мы меняем правила игры. PROXITY — это экосистема off-market сделок.<br>
+                        Мы делаем объект невидимым для рынка, но заметным для капитала.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Technology Section -->
+    <section>
+        <div class="container">
+            <h2 class="section-title fade-in-up">Инвестор видит суть, но не вывеску</h2>
+            <div class="grid-3 stagger-children">
+                <div class="card feature-card">
+                    <div class="card-icon">🎭</div>
+                    <div class="card-title">Завуалированные тизеры</div>
+                    <p>Объекты размещаются без адресов, названий и фото фасадов. Только инвестиционные показатели: ROI, локация, класс актива.</p>
+                </div>
+                <div class="card feature-card highlight">
+                    <div class="card-icon">🔐</div>
+                    <div class="card-title">Верифицированный доступ</div>
+                    <p>Детальную информацию получает только аккредитованный инвестор, подписавший NDA, после одобрения продавцом.</p>
+                </div>
+                <div class="card feature-card">
+                    <div class="card-icon">🛡️</div>
+                    <div class="card-title">Безопасный периметр</div>
+                    <p>Никаких прямых взаимодействий «с улицы». Коммуникация проходит внутри защищённого контура платформы.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Segmentation Section -->
+    <section>
+        <div class="container">
+            <h2 class="section-title fade-in-up">Экосистема для обеих сторон</h2>
+            <div class="two-col fade-in-up delay-100">
+                <div class="col-card">
+                    <h3>🏢 Для владельцев активов</h3>
+                    <p style="margin-bottom: 24px; color: var(--primary-blue); font-weight: 500;">Продавайте, не привлекая внимания</p>
+                    <div class="col-list">
+                        <div class="col-list-item">
+                            <strong>100% Конфиденциальность</strong>
+                            <p>О продаже узнает только реальный покупатель</p>
+                        </div>
+                        <div class="col-list-item">
+                            <strong>Модель Success Fee</strong>
+                            <p>Комиссия только после закрытия сделки. Никаких авансов</p>
+                        </div>
+                        <div class="col-list-item">
+                            <strong>Полный контроль</strong>
+                            <p>Вы сами решаете, кому открыть доступ к документам</p>
+                        </div>
+                    </div>
+                    <a href="sellers.html" class="button outline" style="margin-top: 28px;">Продать объект</a>
+                </div>
+                <div class="col-card highlight">
+                    <h3>💼 Для инвесторов</h3>
+                    <p style="margin-bottom: 24px; color: var(--primary-blue); font-weight: 500;">Доступ к активам, которых нет на рынке</p>
+                    <div class="col-list">
+                        <div class="col-list-item">
+                            <strong>Эксклюзивность</strong>
+                            <p>Лоты, скрытые от массовых агрегаторов и риелторов</p>
+                        </div>
+                        <div class="col-list-item">
+                            <strong>Чистота данных</strong>
+                            <p>Первичная аналитика и проверка рисков от экспертов PROXITY</p>
+                        </div>
+                        <div class="col-list-item">
+                            <strong>Прямой доступ</strong>
+                            <p>Участие в сделках напрямую с собственником без посредников</p>
+                        </div>
+                    </div>
+                    <a href="investors.html" class="button primary" style="margin-top: 28px;">Найти объект</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section style="background: linear-gradient(180deg, transparent, rgba(59, 130, 255, 0.05));">
+        <div class="container">
+            <h2 class="section-title fade-in-up">Запросы инвесторов в реальном времени</h2>
+            <p class="text-center fade-in-up" style="max-width: 700px; margin: -40px auto 50px;">
+                Прямо сейчас на платформе открыты мандаты на покупку активов от верифицированных инвесторов
+            </p>
+            <div class="stats-grid stagger-children">
+                <div class="stat-item">
+                    <div class="stat-value">> 85 млрд ₽</div>
+                    <div class="stat-label">Совокупный объём запросов на покупку</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">1,3 млрд ₽</div>
+                    <div class="stat-label">Средний чек запроса</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">133+</div>
+                    <div class="stat-label">Активных инвесторов в поиске</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">18</div>
+                    <div class="stat-label">Отраслей экономики</div>
+                </div>
+            </div>
+            
+            <div class="grid-3 fade-in-up delay-200" style="margin-top: 40px;">
+                <div class="card" style="text-align: center; padding: 28px;">
+                    <div style="font-size: 2rem; font-weight: 800; color: var(--accent-cyan); margin-bottom: 8px;">68+</div>
+                    <p class="mb-0" style="font-size: 0.95rem;">инвесторов ищут объекты под редевелопмент</p>
+                </div>
+                <div class="card" style="text-align: center; padding: 28px;">
+                    <div style="font-size: 2rem; font-weight: 800; color: var(--accent-green); margin-bottom: 8px;">43+</div>
+                    <p class="mb-0" style="font-size: 0.95rem;">рассматривают агропромышленные комплексы</p>
+                </div>
+                <div class="card" style="text-align: center; padding: 28px;">
+                    <div style="font-size: 2rem; font-weight: 800; color: var(--accent-amber); margin-bottom: 8px;">26+</div>
+                    <p class="mb-0" style="font-size: 0.95rem;">в активном поиске БЦ и адм. зданий</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Geography & Trust -->
+    <section>
+        <div class="container">
+            <div class="grid-auto stagger-children">
+                <div class="card">
+                    <h3 style="margin-bottom: 24px;">🌍 География капитала</h3>
+                    <div style="margin-bottom: 20px;">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                            <span>Москва и МО</span>
+                            <span style="color: var(--primary-blue); font-weight: 700;">85%</span>
+                        </div>
+                        <div style="background: rgba(255,255,255,0.1); border-radius: 10px; height: 8px; overflow: hidden;">
+                            <div style="background: var(--primary-gradient); height: 100%; width: 85%; border-radius: 10px;"></div>
+                        </div>
+                    </div>
+                    <div>
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                            <span>Регионы РФ</span>
+                            <span style="color: var(--primary-blue); font-weight: 700;">15%</span>
+                        </div>
+                        <div style="background: rgba(255,255,255,0.1); border-radius: 10px; height: 8px; overflow: hidden;">
+                            <div style="background: var(--primary-gradient); height: 100%; width: 15%; border-radius: 10px;"></div>
+                        </div>
+                    </div>
+                    <p style="margin-top: 20px; font-size: 0.95rem; margin-bottom: 0;">
+                        В пуле инвесторов — представители Казахстана, ОАЭ и стран СНГ
+                    </p>
                 </div>
                 
-                <!-- Buyer Card -->
-                <div class="card how-card highlight fade-in-up delay-200">
-                    <h3>Для покупателей</h3>
-                    <ul class="step-list">
-                        <li>Настройте мониторинг под ваши требования.</li>
-                        <li>Отправьте запрос на детали объекта.</li>
-                        <li>Получите всю информацию для принятия решения.</li>
-                        <li>Обсуждайте условия напрямую с продавцом.</li>
-                    </ul>
+                <div class="card highlight">
+                    <h3 style="margin-bottom: 24px;">⚡ Скорость и доверие</h3>
+                    <div style="display: flex; gap: 20px; flex-wrap: wrap;">
+                        <div style="flex: 1; min-width: 120px; text-align: center; padding: 20px; background: rgba(0,0,0,0.2); border-radius: 16px;">
+                            <div style="font-size: 2rem; font-weight: 800; color: white;">48ч</div>
+                            <div style="font-size: 0.85rem; color: var(--text-secondary);">Среднее время реакции</div>
+                        </div>
+                        <div style="flex: 1; min-width: 120px; text-align: center; padding: 20px; background: rgba(0,0,0,0.2); border-radius: 16px;">
+                            <div style="font-size: 2rem; font-weight: 800; color: white;">100%</div>
+                            <div style="font-size: 0.85rem; color: var(--text-secondary);">Верификация участников</div>
+                        </div>
+                        <div style="flex: 1; min-width: 120px; text-align: center; padding: 20px; background: rgba(0,0,0,0.2); border-radius: 16px;">
+                            <div style="font-size: 2rem; font-weight: 800; color: white;">0</div>
+                            <div style="font-size: 0.85rem; color: var(--text-secondary);">Утечек информации</div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Audience Section -->
-    <section>
-        <div class="container">
-            <h2 class="fade-in-up">Кому подходит наш маркетплейс</h2>
-            <div class="audience-grid">
-                <div class="audience-item fade-in-up delay-100">
-                    <div class="audience-dot"></div> Владельцы холдингов
-                </div>
-                <div class="audience-item fade-in-up delay-100">
-                    <div class="audience-dot"></div> Банки (работа с задолженностью)
-                </div>
-                <div class="audience-item fade-in-up delay-200">
-                    <div class="audience-dot"></div> Family-офисы
-                </div>
-                <div class="audience-item fade-in-up delay-200">
-                    <div class="audience-dot"></div> Частные инвесторы
-                </div>
-                <div class="audience-item fade-in-up delay-300">
-                    <div class="audience-dot"></div> Девелоперы
-                </div>
-                <div class="audience-item fade-in-up delay-300">
-                    <div class="audience-dot"></div> Арбитражные управляющие
-                </div>
-            </div>
-            <div class="text-center fade-in-up delay-300" style="margin-top: 40px;">
-                <p style="opacity: 0.6; font-size: 0.9rem;">📍 Платформа для РФ, но объекты могут быть по всему миру</p>
-            </div>
-        </div>
-    </section>
-
-    <!-- Security & Unique Features -->
-    <section>
-        <div class="container">
-            <h2 class="fade-in-up">Уникальные преимущества</h2>
-            <div class="grid-auto">
-                <div class="card feature-card fade-in-up delay-100">
-                    <div class="feature-title">Конфиденциальность</div>
-                    <p>Объекты видны только в виде обезличенных тизеров до вашего подтверждения доступа.</p>
-                </div>
-                <div class="card feature-card fade-in-up delay-200">
-                    <div class="feature-title">Верификация</div>
-                    <p>Строгая проверка всех участников: продавцов, брокеров и инвесторов.</p>
-                </div>
-                <div class="card feature-card fade-in-up delay-300">
-                    <div class="feature-title">Аналитика рисков</div>
-                    <p>По каждому объекту предоставляется предварительная оценка инвестиционных рисков.</p>
-                </div>
-                <div class="card feature-card fade-in-up delay-100">
-                    <div class="feature-title">Продвижение</div>
-                    <p>Умные уведомления и закрытые рассылки для целевых инвесторов.</p>
-                </div>
-                <div class="card feature-card fade-in-up delay-200">
-                    <div class="feature-title">Безопасность</div>
-                    <p>Защищенный внутренний чат и подписание NDA внутри платформы.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- CTA Section -->
+    <!-- Final CTA Section -->
     <section class="section-cta">
         <div class="container">
             <div class="fade-in-up">
-                <h2>Начните работать с активами сегодня</h2>
-                <p>Разместите свой объект или настройте мониторинг — получите первые предложения.</p>
-                <div class="hero-buttons" style="margin-top: 30px;">
-                    <a href="#" class="button white">Разместить объект</a>
-                    <a href="#" class="button outline">Найти объект</a>
+                <h2>Рынок больших сделок<br>не терпит лишнего шума</h2>
+                <p>Получите доступ к закрытой платформе PROXITY и начните работать с активами сегодня</p>
+                <div class="hero-buttons">
+                    <a href="#" class="button white">Купить актив</a>
+                    <a href="#" class="button outline">Продать актив</a>
                 </div>
             </div>
         </div>
@@ -570,41 +277,24 @@
     <!-- Footer -->
     <footer>
         <div class="container">
-            <p>&copy; 2025 Proxity. Все права защищены.</p>
+            <div class="footer-content">
+                <a href="index.html" class="footer-logo">
+                    <img src="assets/images/proxity_logo_white.svg" alt="Proxity" class="logo-img">
+                </a>
+                <div class="footer-links">
+                    <a href="investors.html">Инвесторам</a>
+                    <a href="sellers.html">Продавцам</a>
+                    <a href="brokers.html">Брокерам</a>
+                    <a href="contacts.html">Контакты</a>
+                </div>
+            </div>
+            <div class="footer-copy">
+                © 2025 PROXITY. Все права защищены. Платформа для РФ, объекты по всему миру.
+            </div>
         </div>
     </footer>
 
     <!-- Scripts -->
-    <script>
-        // Scroll Animation Observer
-        const observerOptions = {
-            root: null,
-            rootMargin: '0px',
-            threshold: 0.1
-        };
-
-        const observer = new IntersectionObserver((entries, observer) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                    observer.unobserve(entry.target); // Only animate once
-                }
-            });
-        }, observerOptions);
-
-        document.querySelectorAll('.fade-in-up').forEach(el => {
-            observer.observe(el);
-        });
-
-        // Sticky Header Effect
-        window.addEventListener('scroll', () => {
-            const header = document.querySelector('.header');
-            if (window.scrollY > 50) {
-                header.classList.add('scrolled');
-            } else {
-                header.classList.remove('scrolled');
-            }
-        });
-    </script>
+    <script src="assets/js/main.js"></script>
 </body>
 </html>
