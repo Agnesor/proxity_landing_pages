@@ -986,8 +986,8 @@ footer {
 
 /* --- Problem/Solution Blocks --- */
 .problem-block {
-    background: linear-gradient(135deg, rgba(239, 68, 68, 0.05), transparent);
-    border: 1px solid rgba(239, 68, 68, 0.15);
+    background: linear-gradient(135deg, rgba(59, 130, 255, 0.05), rgba(5, 10, 20, 0.3));
+    border: 1px solid rgba(59, 130, 255, 0.2);
     border-radius: var(--card-radius);
     padding: 48px;
     margin-bottom: 40px;
@@ -1011,7 +1011,7 @@ footer {
     content: "×";
     position: absolute;
     left: 0;
-    color: #ef4444;
+    color: var(--primary-blue);
     font-weight: 700;
     font-size: 1.25rem;
 }
