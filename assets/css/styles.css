@@ -95,7 +95,7 @@ body::before {
     background: rgba(59, 130, 246, 0.35);
     top: -10%;
     left: -5%;
-    animation: orbFloat1 30s ease-in-out infinite, fadeInOrb 2s ease-out forwards;
+    animation: orbFloat1 30s ease-in-out infinite, fadeInOrb 2s ease-out forwards, orbColor1 20s ease-in-out infinite;
 }
 
 .gradient-orb-2 {
@@ -104,7 +104,7 @@ body::before {
     background: rgba(6, 182, 212, 0.3);
     top: 60%;
     right: -10%;
-    animation: orbFloat2 35s ease-in-out infinite, fadeInOrb 2s ease-out 0.3s forwards;
+    animation: orbFloat2 35s ease-in-out infinite, fadeInOrb 2s ease-out 0.3s forwards, orbColor2 25s ease-in-out infinite;
 }
 
 .gradient-orb-3 {
@@ -113,7 +113,7 @@ body::before {
     background: rgba(30, 64, 175, 0.4);
     bottom: -5%;
     left: 30%;
-    animation: orbFloat3 40s ease-in-out infinite, fadeInOrb 2s ease-out 0.6s forwards;
+    animation: orbFloat3 40s ease-in-out infinite, fadeInOrb 2s ease-out 0.6s forwards, orbColor3 30s ease-in-out infinite;
 }
 
 @keyframes orbFloat1 {
@@ -167,6 +167,61 @@ body::before {
     }
     90% {
         transform: translate(calc(-5% + var(--mouse-x)), calc(5% + var(--mouse-y))) scale(1.01);
+    }
+}
+
+/* Color animation for gradient orbs */
+@keyframes orbColor1 {
+    0% {
+        background: rgba(59, 130, 246, 0.35);
+    }
+    25% {
+        background: rgba(6, 182, 212, 0.4);
+    }
+    50% {
+        background: rgba(30, 64, 175, 0.35);
+    }
+    75% {
+        background: rgba(0, 212, 255, 0.3);
+    }
+    100% {
+        background: rgba(59, 130, 246, 0.35);
+    }
+}
+
+@keyframes orbColor2 {
+    0% {
+        background: rgba(6, 182, 212, 0.3);
+    }
+    25% {
+        background: rgba(30, 64, 175, 0.35);
+    }
+    50% {
+        background: rgba(0, 212, 255, 0.3);
+    }
+    75% {
+        background: rgba(59, 130, 246, 0.35);
+    }
+    100% {
+        background: rgba(6, 182, 212, 0.3);
+    }
+}
+
+@keyframes orbColor3 {
+    0% {
+        background: rgba(30, 64, 175, 0.4);
+    }
+    25% {
+        background: rgba(0, 212, 255, 0.35);
+    }
+    50% {
+        background: rgba(59, 130, 246, 0.4);
+    }
+    75% {
+        background: rgba(6, 182, 212, 0.35);
+    }
+    100% {
+        background: rgba(30, 64, 175, 0.4);
     }
 }
 
@@ -748,6 +803,16 @@ p.lead {
     background: var(--glass-bg);
     border: 1px solid var(--glass-border);
     border-radius: var(--card-radius);
+    transition: var(--transition-fast);
+    position: relative;
+    overflow: hidden;
+}
+
+.stat-item:hover {
+    transform: translateY(-8px);
+    border-color: var(--glass-highlight);
+    background: var(--glass-bg-hover);
+    box-shadow: var(--shadow-glow);
 }
 
 .stat-value {
@@ -878,8 +943,9 @@ p.lead {
 /* --- CTA Section --- */
 .section-cta {
     text-align: center;
-    background: linear-gradient(180deg, transparent 0%, rgba(59, 130, 255, 0.08) 100%);
-    border-top: 1px solid var(--glass-border);
+    background: linear-gradient(180deg, rgba(21, 91, 255, 0.12) 0%, rgba(59, 130, 255, 0.15) 50%, rgba(0, 212, 255, 0.08) 100%);
+    border-top: 1px solid rgba(59, 130, 255, 0.2);
+    position: relative;
 }
 
 .section-cta h2 {
